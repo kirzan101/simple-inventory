@@ -6,11 +6,15 @@
 
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item href="#">
+                <b-nav-item>
                     <Link href="/items">Item</Link>
                 </b-nav-item>
-                <b-nav-item href="/inventory">Inventory</b-nav-item>
-                <b-nav-item href="#">Employee</b-nav-item>
+                <b-nav-item>
+                    <Link href="/inventory">Inventory</Link> 
+                </b-nav-item>
+                <b-nav-item>
+                    <Link href="/employee">Employee</Link> 
+                </b-nav-item>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>
