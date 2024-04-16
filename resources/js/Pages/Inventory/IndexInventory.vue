@@ -8,7 +8,7 @@
                 Add
             </b-button>
 
-            <b-table :fields="fields" striped hover :inventories="inventories"></b-table>      
+            <b-table :fields="fields" striped hover :items="inventories"></b-table>      
         </b-container>
     </div>
 </template>
