@@ -1,6 +1,8 @@
 <template>
     <div>
         <Navbar />
+        <h1>Items</h1>
+        
         <b-container fluid>
             <b-button
                 v-b-modal.item-form-modal

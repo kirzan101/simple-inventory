@@ -6,9 +6,26 @@
 
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item href="#">Link</b-nav-item>
-                <b-nav-item href="#" disabled>Disabled</b-nav-item>
+                <b-nav-item>
+                    <Link href="/items">Item</Link>
+                </b-nav-item>
+                <b-nav-item>
+                    <Link href="/inventory">Inventory</Link> 
+                </b-nav-item>
+                <b-nav-item>
+                    <Link href="/employee">Employee</Link> 
+                </b-nav-item>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>
 </template>
+
+<script>
+import { Link } from '@inertiajs/vue2'
+
+export default {
+    components: {
+        Link,
+    }
+}
+</script>
