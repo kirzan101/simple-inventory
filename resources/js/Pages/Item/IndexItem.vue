@@ -63,11 +63,12 @@ export default {
         selectItem(item) {
             console.log(item, "item here");
             this.selectedItem = item;
-            this.clickedItem = !this.clickedItem;
+            this.clickedItem = true;
             this.formType = "UPDATE";
         },
         add() {
-            this.clickedItem = !this.clickedItem;
+            console.log("Clicked add");
+            this.clickedItem = true;
             this.formType = "ADD";
         },
         emptyFields() {

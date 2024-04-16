@@ -10,15 +10,15 @@
             <b-form-input
                 id="inline-form-input-name"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                placeholder="Jane Doe"
+                placeholder="Name"
                 v-model="form.name"
             ></b-form-input>
 
-            <label class="sr-only" for="inline-form-input-name">Name</label>
+            <label class="sr-only" for="inline-form-input-name">Description</label>
             <b-form-input
                 id="inline-form-input-name"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                placeholder="Jane Doe"
+                placeholder="Description"
                 v-model="form.description"
             ></b-form-input>
 
@@ -26,7 +26,7 @@
             <b-form-input
                 id="inline-form-input-name"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                placeholder="Jane Doe"
+                placeholder="Model"
                 v-model="form.model"
             ></b-form-input>
 
@@ -34,7 +34,7 @@
             <b-form-input
                 id="inline-form-input-name"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                placeholder="Jane Doe"
+                placeholder="Brand"
                 v-model="form.brand"
             ></b-form-input>
         </b-form>
