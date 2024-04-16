@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InventoryFormRequest;
 use App\Interfaces\InventoryInterface;
 use App\Models\Inventory;
 use App\Http\Controllers\Controller;
@@ -22,9 +23,13 @@ class InventoryController extends Controller
         ['results' => $inventories] = $this->inventory->indexInventory($request->toArray());
 
         return Inertia::render('Inventory/IndexInventory', [
-            'inventory' => $inventories->all(),
+            'inventories' => $inventories->all(),
             'meta' => $inventories->resource
         ]);
+        /* return response()->json([
+            'inventories' => $inventories,
+            'message' => 'success'
+        ]); */
     }
 
     /**
@@ -38,9 +43,14 @@ class InventoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InventoryFormRequest $request)
     {
-        //
+        ['result' => $inventory, 'message' => $message] = $this->inventory->createInventory($request->toArray());
+
+        return response()->json([
+            'inventory' => $inventory,
+            'message' => 'success',
+        ]);
     }
 
     /**
@@ -64,7 +74,12 @@ class InventoryController extends Controller
      */
     public function update(Request $request, Inventory $inventory)
     {
-        //
+        ['result' => $inventory, 'message' => $message] = $this->inventory->editInventory($request->toArray(), $inventory->id);
+
+        return response()->json([
+            'items' => $inventory,
+            'message' => 'success',
+        ]);
     }
 
     /**
