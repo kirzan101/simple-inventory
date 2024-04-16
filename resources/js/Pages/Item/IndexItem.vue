@@ -11,8 +11,10 @@
                 @click="add"
                 >Add</b-button
             >
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="rows" use-router></b-pagination-nav>
 
-            <b-table :fields="fields" striped hover :items="items">
+            <p class="mt-3">Current Page: {{ currentPage }}</p>
+            <b-table id="my-table" :fields="fields" striped hover :items="items">
                 <template #cell(action)="data">
                     <b-button
                         @click="selectItem(data.item)"
@@ -57,16 +59,22 @@ export default {
             },
             clickedItem: false,
             formType: "ADD",
+            currentPage: this.meta.current_page,
+            rows: this.items.length,
         };
     },
     methods: {
         selectItem(item) {
+            
             console.log(item, "item here");
             this.selectedItem = item;
             this.clickedItem = true;
             this.formType = "UPDATE";
         },
         add() {
+            console.log(this.meta);
+            console.log(this.items);
+            console.log(this.items.length);
             console.log("Clicked add");
             this.clickedItem = true;
             this.formType = "ADD";
@@ -74,6 +82,9 @@ export default {
         emptyFields() {
             console.log('here1!!')
             this.selectedItem = Object.assign({}, "");
+        },
+        linkGen(pageNum) {
+            return pageNum === 1 ? '?' : `?page=${pageNum}`
         },
     },
 };
