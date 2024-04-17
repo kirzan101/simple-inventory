@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Employee;
 use App\Models\Inventory;
 use App\Models\Item;
 use Illuminate\Database\Seeder;
@@ -23,5 +24,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         // Item::factory(10)->create();
         Inventory::factory(46)->create();
+        Employee::factory(10)->create();
     }
 }
