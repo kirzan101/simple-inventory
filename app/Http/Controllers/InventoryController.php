@@ -20,16 +20,17 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        ['results' => $inventories] = $this->inventory->indexInventory($request->toArray());
+        ['results' => $inventories, 'rows' => $rows] = $this->inventory->indexInventory($request->toArray());
 
+        // return response()->json([
+        //     'inventories' => $inventories,
+        //     'message' => 'success'
+        // ]);
         return Inertia::render('Inventory/IndexInventory', [
             'inventories' => $inventories->all(),
-            'meta' => $inventories->resource
-        ]);
-        /* return response()->json([
-            'inventories' => $inventories,
-            'message' => 'success'
-        ]); */
+            'rows' => $rows,
+            'meta' => $inventories->resource,
+        ]); // Compact
     }
 
     /**
@@ -47,10 +48,12 @@ class InventoryController extends Controller
     {
         ['result' => $inventory, 'message' => $message] = $this->inventory->createInventory($request->toArray());
 
-        return response()->json([
-            'inventory' => $inventory,
-            'message' => 'success',
-        ]);
+        // return response()->json([
+        //     'inventory' => $inventory,
+        //     'message' => 'success',
+        // ]);
+
+        return redirect()->back()->with('message', $message);
     }
 
     /**
@@ -72,14 +75,15 @@ class InventoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Inventory $inventory)
+    public function update(InventoryFormRequest $request, Inventory $inventory)
     {
         ['result' => $inventory, 'message' => $message] = $this->inventory->editInventory($request->toArray(), $inventory->id);
 
-        return response()->json([
-            'items' => $inventory,
-            'message' => 'success',
-        ]);
+        // return response()->json([
+        //     'items' => $inventory,
+        //     'message' => 'success',
+        // ]);
+        return redirect()->back()->with('message', $message);
     }
 
     /**

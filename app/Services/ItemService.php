@@ -18,11 +18,14 @@ class ItemService implements ItemInterface
         $orderByDesc = true;
 
         $items = Item::paginate($per_page);
+        // $rows = Item::all()->count();
+        $rows = $items->total();
 
         $this->return_result = [
             'message' => 'success',
             'code' => '200',
-            'results' => ItemResource::collection($items)
+            'results' => ItemResource::collection($items),
+            'rows' => $rows
         ];
 
         return $this->return_result;

@@ -1,10 +1,8 @@
 <template>
     <b-modal
-        id="item-form-modal"
+        id="inventory-form-modal"
         title="BootstrapVue"
-        no-close-on-esc
-        no-close-on-backdrop
-    >
+        >
         <b-form @submit.prevent="submit" inline>
             <label class="sr-only" for="inline-form-input-name">Name</label>
             <b-form-input
@@ -16,26 +14,26 @@
 
             <label class="sr-only" for="inline-form-input-name">Description</label>
             <b-form-input
-                id="inline-form-input-name"
+                id="inline-form-input-description"
                 class="mb-2 mr-sm-2 mb-sm-0"
                 placeholder="Description"
                 v-model="form.description"
             ></b-form-input>
 
-            <label class="sr-only" for="inline-form-input-name">Model</label>
+            <label class="sr-only" for="inline-form-input-name">BatchNumber</label>
             <b-form-input
-                id="inline-form-input-name"
+                id="inline-form-input-batch-number"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                placeholder="Model"
-                v-model="form.model"
+                placeholder="Batch Number"
+                v-model="form.batch_number"
             ></b-form-input>
 
-            <label class="sr-only" for="inline-form-input-name">Brand</label>
+            <label class="sr-only" for="inline-form-input-name">ItemID</label>
             <b-form-input
-                id="inline-form-input-name"
+                id="inline-form-input-item-id"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                placeholder="Brand"
-                v-model="form.brand"
+                placeholder="Item ID"
+                v-model="form.item_id"
             ></b-form-input>
         </b-form>
 
@@ -51,7 +49,7 @@ import { router, useForm } from "@inertiajs/vue2";
 
 export default {
     props: {
-        item: Object,
+        inventory: Object,
         formType: String,
     },
     data() {
@@ -59,16 +57,16 @@ export default {
             form: useForm({
                 name: "",
                 description: "",
-                model: "",
-                brand: "",
+                batch_number: "",
+                item_id: "",
             }),
         };
     },
     watch: {
-        item: {
+        inventory: {
             handler(newItem) {
                 // Update form data when item prop changes
-                this.form = this.item;
+                this.form = this.inventory;
             },
             immediate: true, // Update immediately when component is created
         },
@@ -78,35 +76,22 @@ export default {
             console.log("submitted");
 
             if (this.formType === "ADD") {
-                router.post("/items", this.form);
+                console.log("form", this.form);
+                router.post("/inventories", this.form);
                 this.form.reset();
             } else if (this.formType === "UPDATE") {
-                router.post(`/items/${this.item.id}`, {
+                router.post(`/inventories/${this.inventory.id}`, {
                     _method: "PUT",
                     ...this.form,
                 });
             }
-
             this.$emit("toggleEmpty");
-
-            this.$bvModal.hide("item-form-modal");
+            this.$bvModal.hide("inventory-form-modal");
         },
         closed() {
-            console.log(this.item);
-            this.$bvModal.hide("item-form-modal");
-        },
-        empty() {
-            this.form = useForm({
-                name: "",
-                description: "",
-                model: "",
-                brand: "",
-            });
-        },
+            console.log(this.inventory);
+            this.$bvModal.hide("inventory-form-modal");
+        }
     },
-    // created() {
-    //     this.form = this.item;
-    // },
-
-};
+}
 </script>

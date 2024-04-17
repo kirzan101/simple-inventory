@@ -18,11 +18,13 @@ class InventoryService implements InventoryInterface
         $orderByDesc = true;
 
         $inventory = Inventory::paginate($per_page);
+        $rows = Inventory::all()->count();
 
         $this->return_result = [
             'message' => 'success',
             'code' => '200',
-            'results' => InventoryResource::collection($inventory)
+            'results' => InventoryResource::collection($inventory),
+            'rows' => $rows
         ];
 
         return $this->return_result;
@@ -40,7 +42,7 @@ class InventoryService implements InventoryInterface
                 'item_id' => $request['item_id'],
             ]);
 
-            return $this->return_result = [
+            $this->return_result = [
                 'message' => 'success',
                 'code' => '201',
                 'result' => new InventoryResource($inventory)

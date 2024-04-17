@@ -10,7 +10,7 @@
                     <Link href="/items">Item</Link>
                 </b-nav-item>
                 <b-nav-item>
-                    <Link href="/inventory">Inventory</Link> 
+                    <Link href="/inventories">Inventory</Link> 
                 </b-nav-item>
                 <b-nav-item>
                     <Link href="/employee">Employee</Link> 

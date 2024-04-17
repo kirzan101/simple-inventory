@@ -20,7 +20,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        ['results' => $items] = $this->item->indexItem($request->toArray());
+        ['results' => $items, 'rows' => $rows] = $this->item->indexItem($request->toArray());
 
         // return response()->json([
         //     'items' => $items,
@@ -29,7 +29,8 @@ class ItemController extends Controller
 
         return Inertia::render('Item/IndexItem', [
             'items' => $items->all(),
-            'meta' => $items->resource
+            'rows' => $rows,
+            'meta' => $items->resource,
         ]); //compact
     }
 
