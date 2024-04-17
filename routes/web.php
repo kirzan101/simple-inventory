@@ -21,6 +21,6 @@ Route::get('/', function () {
 });
 
 Route::resource('/items', ItemController::class);
-Route::resource('/inventory', InventoryController::class);
+Route::resource('/inventories', InventoryController::class);
 
 Route::get('/home', [HomeController::class, 'index']);

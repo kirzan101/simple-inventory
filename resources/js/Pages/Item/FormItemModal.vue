@@ -64,6 +64,15 @@ export default {
             }),
         };
     },
+    watch: {
+        item: {
+            handler(newItem) {
+                // Update form data when item prop changes
+                this.form = this.item;
+            },
+            immediate: true, // Update immediately when component is created
+        },
+    },
     methods: {
         submit() {
             console.log("submitted");
@@ -83,6 +92,7 @@ export default {
             this.$bvModal.hide("item-form-modal");
         },
         closed() {
+            console.log(this.item);
             this.$bvModal.hide("item-form-modal");
         },
         empty() {
@@ -94,8 +104,9 @@ export default {
             });
         },
     },
-    created() {
-        this.form = this.item;
-    },
+    // created() {
+    //     this.form = this.item;
+    // },
+
 };
 </script>
