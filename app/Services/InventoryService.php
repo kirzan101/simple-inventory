@@ -18,7 +18,7 @@ class InventoryService implements InventoryInterface
         $orderByDesc = true;
 
         $inventory = Inventory::paginate($per_page);
-        $rows = Inventory::all()->count();
+        $rows = $inventory->total();
 
         $this->return_result = [
             'message' => 'success',
@@ -52,7 +52,7 @@ class InventoryService implements InventoryInterface
 
             $this->return_result = [
                 'message' => $e->getMessage(),
-                'code' => '500'
+                'code' => 500,
             ];
         }
         DB::commit();
