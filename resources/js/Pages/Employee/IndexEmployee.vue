@@ -1,16 +1,17 @@
 <template>
     <div>
         <Navbar />
-        <h1>Employees</h1>
+        <h1>Employees - {{ current_page }}</h1>
 
         <b-button
             v-b-modal.employee-form-modal
             class="my-3"
             variant="success"
             @click="add"
-            >Add</b-button>
+            >Add</b-button
+        >
 
-        <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
+        <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
         <b-container fluid>
             <b-table id="my-table" :fields="fields" striped hover :items="employees">
                 <template #cell(action)="data">
@@ -19,33 +20,50 @@
                     >Update</b-button>
                 </template>
             </b-table>
-        </b-container>
-
-        <FormEmployeeModal
-            v-if="clickedItem"
-            :employee="selectedEmployee"
+        </b-container> -->
+        <TableEmployee
+            :employees="employees"
+            :fields="fields"
+            :totalRows="total"
+            :perPage="per_page"
+            :filters="filters"
+            :current_page="current_page"
+            @toggle-search="loadData"
         />
 
+        <FormEmployeeModal v-if="clickedItem" :employee="selectedEmployee" />
     </div>
 </template>
 
 <script>
-import Navbar from '../../Navbar.vue';
-import FormEmployeeModal from './FormEmployeeModal.vue';
+import Navbar from "../../Navbar.vue";
+import FormEmployeeModal from "./FormEmployeeModal.vue";
+import TableEmployee from "./TableEmployee.vue";
+import { router } from "@inertiajs/vue2";
 
 export default {
     props: {
         employees: Array,
-        rows: Number,
-        meta: Object,
+        per_page: Number,
+        total: Number,
+        last_page: Number,
+        search: String,
+        current_page: Number,
     },
     components: {
         Navbar,
         FormEmployeeModal,
+        TableEmployee,
     },
     data() {
         return {
-            fields: ["name", "position", "department", "branch", "action"],
+            fields: [
+                { key: "name", label: "Full Name" },
+                { key: "position", label: "Position" },
+                { key: "department", label: "Department" },
+                { key: "branch", label: "Branch" },
+                { key: "", label: "Action" },
+            ],
             selectedEmployee: {
                 name: "",
                 position: "",
@@ -54,8 +72,12 @@ export default {
             },
             clickedItem: false,
             formType: "ADD",
-            current_page: this.meta.current_page,
-        }
+            filters: {
+                per_page: "",
+                search: "",
+                current_page: "",
+            },
+        };
     },
     methods: {
         selectEmployee(employee) {
@@ -71,22 +93,25 @@ export default {
             this.formType = "ADD";
         },
         linkGen(pageNum) {
-            return pageNum === 1 ? '?' : `?page=${pageNum}`
+            return pageNum === 1 ? "?" : `?page=${pageNum}`;
+        },
+        loadData(filter) {
+            router.reload({
+                data: filter,
+                only: [
+                    "employees",
+                    "per_page",
+                    "total",
+                    "last_page",
+                    "search",
+                ],
+            });
         },
     },
-    computed: {
-        totalPages() {
-            console.log(this.items);
-            console.log("Meta:", this.meta.per_page);
-            console.log("Rows:", this.rows);
-            console.log("Pages: ", Math.ceil(this.rows / this.meta.per_page));
-            if (Math.ceil(this.rows / this.meta.per_page) == 0) {
-                return 1;
-            }
-            else{
-                return Math.ceil(this.rows / this.meta.per_page);
-            }
-        }
+    created() {
+        this.filters.search = this.search,
+        this.filters.per_page = this.per_page
+        this.filters.current_page = this.current_page
     }
-}
+};
 </script>

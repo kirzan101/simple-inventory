@@ -5,27 +5,51 @@ namespace App\Services;
 use App\Http\Resources\EmployeeResource;
 use App\Interfaces\EmployeeInterface;
 use App\Models\Employee;
+use App\Traits\ReturnCollectionTrait;
+use App\Traits\ReturnModelTrait;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeService implements EmployeeInterface
 {
+    use ReturnCollectionTrait, ReturnModelTrait;
+
     public $return_result = [];
 
-    public function indexEmployee(array $request): array
+    public function indexEmployee(): array
     {
-        $per_page = 10;
-        $orderByDesc = true;
+        $employees = Employee::all();
 
-        $employee = Employee::paginate($per_page);
-        $rows = $employee->total();
+        $this->return_result = $this->returnCollection(200, 'success', 'successfully retrieved', EmployeeResource::collection($employees));
 
-        $this->return_result = [
-            'message' => 'success',
-            'code' => '200',
-            'results' => EmployeeResource::collection($employee),
-            'rows' => $rows
-        ];
+        return $this->return_result;
+    }
+
+    public function indexPaginateEmployee(array $request): array
+    {
+        // srat defaults
+        $per_page = (array_key_exists('per_page', $request) &&$request['per_page']) ? $request['per_page'] : 10;
+        $sort = (array_key_exists('orderByDesc', $request) && $request['orderByDesc']) ? 'desc' : 'asc';
+        $sort_by = (array_key_exists('sortBy', $request) && $request['sortBy']) ? $request['sortBy'] : 'id';
+
+        $employees = Employee::query();
+
+        if (array_key_exists('search', $request) && !empty($request['search'])) {
+            $employees = $employees->where('name', 'LIKE', '%' . $request['search'] . '%');
+        }
+
+        // search filter
+        // if (array_key_exists('search', $request) && !empty($request['search'])) {
+        //     $employees->where(function ($query) use ($request) {
+        //         $query->where('first_name', 'LIKE', '%' . $request['search'] . '%')
+        //             ->orWhere('middle_name', 'LIKE', '%' . $request['search'] . '%')
+        //             ->orWhere('last_name', 'LIKE', '%' . $request['search'] . '%');
+        //     });
+        // }
+
+        $employees = $employees->orderBy($sort_by, $sort)->paginate($per_page);
+        
+        $this->return_result = $this->returnCollection(200, 'success', 'successfully retrieved', EmployeeResource::collection($employees));
 
         return $this->return_result;
     }

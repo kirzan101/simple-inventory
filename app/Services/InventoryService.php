@@ -74,6 +74,7 @@ class InventoryService implements InventoryInterface
                 'name' => $request['name'],
                 'description' => $request['description'],
                 'batch_number' => $request['batch_number'],
+                'serial_number' => $request['serial_number'],
                 'item_id' => $request['item_id'],
             ]);
 
