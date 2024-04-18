@@ -13,7 +13,7 @@
                     <Link href="/inventories">Inventory</Link> 
                 </b-nav-item>
                 <b-nav-item>
-                    <Link href="/employee">Employee</Link> 
+                    <Link href="/employees">Employee</Link> 
                 </b-nav-item>
             </b-navbar-nav>
         </b-collapse>

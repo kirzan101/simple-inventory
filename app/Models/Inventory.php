@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inventory extends Model
@@ -16,6 +16,7 @@ class Inventory extends Model
         'name',
         'description',
         'batch_number',
+        'serial_number',
         'item_id'
     ];
 
@@ -24,8 +25,8 @@ class Inventory extends Model
         return $this->belongsTo(Item::class);
     }
 
-    public function employee(): HasMany
+    public function assigns(): HasOne
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasOne(Assign::class);
     }
 }

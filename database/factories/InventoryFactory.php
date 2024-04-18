@@ -21,6 +21,7 @@ class InventoryFactory extends Factory
             'name' => fake()->name,
             'description' => fake()->catchPhrase,
             'batch_number' => fake()->company,
+            'serial_number' => fake()->company,
             'item_id' => Item::factory(),
         ];
     }

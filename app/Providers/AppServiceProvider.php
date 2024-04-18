@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Interfaces\AssignInterface;
 use App\Interfaces\EmployeeInterface;
 use App\Interfaces\InventoryInterface;
 use App\Interfaces\ItemInterface;
+use App\Services\AssignService;
 use App\Services\EmployeeService;
 use App\Services\InventoryService;
 use App\Services\ItemService;
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ItemInterface::class, ItemService::class);
         $this->app->bind(InventoryInterface::class, InventoryService::class);
         $this->app->bind(EmployeeInterface::class, EmployeeService::class);
+        $this->app->bind(AssignInterface::class, AssignService::class);
     }
 
     /**
