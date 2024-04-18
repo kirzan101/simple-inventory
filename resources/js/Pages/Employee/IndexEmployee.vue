@@ -76,6 +76,7 @@ export default {
                 per_page: "",
                 search: "",
                 current_page: "",
+                page: ""
             },
         };
     },
@@ -104,6 +105,7 @@ export default {
                     "total",
                     "last_page",
                     "search",
+                    "current_page"
                 ],
             });
         },
@@ -112,6 +114,7 @@ export default {
         this.filters.search = this.search,
         this.filters.per_page = this.per_page
         this.filters.current_page = this.current_page
+        this.filters.page = this.current_page
     }
 };
 </script>
