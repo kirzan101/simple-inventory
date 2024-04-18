@@ -20,16 +20,16 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        ['results' => $employees, 'rows' => $rows] = $this->employee->indexEmployee($request->toArray());
-        // return response()->json([
-        //     'employees' => $employees,
-        //     'message' => 'success',
-        // ]);
-
+        ['results' => $employees] = $this->employee->indexPaginateEmployee($request->toArray());
+// dd($request->current_page);
         return Inertia::render('Employee/IndexEmployee', [
             'employees' => $employees->all(),
-            'rows' => $rows,
-            'meta' => $employees->resource,
+            'per_page' => $employees->perPage(),
+            'current_page' => $employees->currentPage(),
+            'page' => ($request['page']) ?  $request['page'] : 1,
+            'total' => $employees->total(),
+            'last_page' => $employees->lastPage(),
+            'search' => $request['search'],
         ]);
     }
 
@@ -38,7 +38,6 @@ class EmployeeController extends Controller
      */
     public function create(EmployeeFormRequest $request)
     {
-
     }
 
     /**
