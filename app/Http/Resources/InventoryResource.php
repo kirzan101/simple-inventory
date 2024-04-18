@@ -21,6 +21,7 @@ class InventoryResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'batch_number' => $this->batch_number,
+            'serial_number' => $this->serial_number,
             'item_id' => $this->item_id,
             'id' => $this->id,
         ];

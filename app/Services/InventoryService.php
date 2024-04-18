@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Http\Resources\InventoryResource;
+use App\Http\Resources\ItemResource;
 use App\Interfaces\InventoryInterface;
 use App\Models\Inventory;
+use App\Models\Item;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -16,14 +18,15 @@ class InventoryService implements InventoryInterface
     {
         $per_page = 10;
         $orderByDesc = true;
-
-        $inventory = Inventory::paginate($per_page);
-        $rows = $inventory->total();
+        $items = Item::all();
+        $inventories = Inventory::paginate($per_page);
+        $rows = $inventories->total();
 
         $this->return_result = [
             'message' => 'success',
             'code' => '200',
-            'results' => InventoryResource::collection($inventory),
+            'results' => InventoryResource::collection($inventories),
+            'items' => ItemResource::collection($items),
             'rows' => $rows
         ];
 
@@ -39,6 +42,7 @@ class InventoryService implements InventoryInterface
                 'name' => $request['name'],
                 'description' => $request['description'],
                 'batch_number' => $request['batch_number'],
+                'serial_number' => $request['serial_number'],
                 'item_id' => $request['item_id'],
             ]);
 

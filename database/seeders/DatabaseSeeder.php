@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Assign;
 use App\Models\Employee;
 use App\Models\Inventory;
 use App\Models\Item;
@@ -23,7 +24,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         // Item::factory(10)->create();
-        Inventory::factory(46)->create();
-        Employee::factory(10)->create();
+        // Inventory::factory(46)->create();
+        Assign::factory(10)->create();
     }
 }

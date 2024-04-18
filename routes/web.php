@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
@@ -24,4 +25,5 @@ Route::get('/', function () {
 Route::resource('/items', ItemController::class);
 Route::resource('/inventories', InventoryController::class);
 Route::resource('/employees', EmployeeController::class);
+Route::resource('/assigns', AssignController::class);
 Route::get('/home', [HomeController::class, 'index']);

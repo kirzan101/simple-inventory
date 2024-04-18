@@ -1,7 +1,7 @@
 <template>
     <div>
         <Navbar />
-        <h1>Inventory</h1>
+        <h1>Inventories</h1>
 
         <b-container fluid>
             <b-button 
@@ -27,6 +27,7 @@
             <FormInventoryModal
                 v-if="clickedItem"
                 :inventory="selectedInventory"
+                :items="items"
                 :formType="formType"
             />
         </b-container>
@@ -40,6 +41,7 @@ import FormInventoryModal from './FormInventoryModal.vue';
 export default {
     props: {
         inventories: Array,
+        items: Array,
         rows: Number,
         meta: Object,
     },
@@ -49,12 +51,13 @@ export default {
     },
     data() {
         return {
-            fields: ["name", "description", "batch_number", "item_id", "action"],
+            fields: ["name", "description", "batch_number", "serial_number", "item_id", "action"],
             selectedInventory: {
                 name: "",
                 description: "",
-                model: "",
-                brand: "",
+                batch_number: "",
+                serial_number: "",
+                item_id: "",
             },
             clickedItem: false,
             formType: "ADD",
@@ -80,10 +83,16 @@ export default {
     },
     computed: {
         totalPages() {
+            console.log(this.items);
             console.log("Meta:", this.meta.per_page);
             console.log("Rows:", this.rows);
             console.log("Pages: ", Math.ceil(this.rows / this.meta.per_page));
-            return Math.ceil(this.rows / this.meta.per_page);
+            if (Math.ceil(this.rows / this.meta.per_page) == 0) {
+                return 1;
+            }
+            else{
+                return Math.ceil(this.rows / this.meta.per_page);
+            }
         }
     }
 }

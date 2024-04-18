@@ -20,7 +20,7 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        ['results' => $inventories, 'rows' => $rows] = $this->inventory->indexInventory($request->toArray());
+        ['results' => $inventories, 'rows' => $rows, 'items' => $items] = $this->inventory->indexInventory($request->toArray());
 
         // return response()->json([
         //     'inventories' => $inventories,
@@ -28,6 +28,7 @@ class InventoryController extends Controller
         // ]);
         return Inertia::render('Inventory/IndexInventory', [
             'inventories' => $inventories->all(),
+            'items' => $items->all(),
             'rows' => $rows,
             'meta' => $inventories->resource,
         ]); // Compact

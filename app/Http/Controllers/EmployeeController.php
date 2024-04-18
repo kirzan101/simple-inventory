@@ -7,6 +7,7 @@ use App\Interfaces\EmployeeInterface;
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeeController extends Controller
 {
@@ -20,9 +21,15 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         ['results' => $employees, 'rows' => $rows] = $this->employee->indexEmployee($request->toArray());
-        return response()->json([
-            'employees' => $employees,
-            'message' => 'success',
+        // return response()->json([
+        //     'employees' => $employees,
+        //     'message' => 'success',
+        // ]);
+
+        return Inertia::render('Employee/IndexEmployee', [
+            'employees' => $employees->all(),
+            'rows' => $rows,
+            'meta' => $employees->resource,
         ]);
     }
 
@@ -37,7 +44,7 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EmployeeFormRequest $request)
     {
         ['result' => $employee, 'message' => $message] = $this->employee->createEmployee($request->toArray());
 
@@ -45,6 +52,7 @@ class EmployeeController extends Controller
             'employee' => $employee,
             'message' => $message,
         ]);
+        // return redirect()->back()->with('message', $message);
     }
 
     /**
@@ -66,9 +74,17 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Employee $employee)
+    public function update(EmployeeFormRequest $request, Employee $employee)
     {
-        //
+        ['result' => $employee, 'message' => $message] = $this->employee->editEmployee($request->toArray(), $employee->id);
+
+        return response()->json([
+            'employees' => $employee,
+            'message' => 'success',
+        ]);
+
+        // return redirect()->back()->with('message', $message);
+
     }
 
     /**

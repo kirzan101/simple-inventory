@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ItemController;
@@ -23,4 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route::resource('/items', ItemController::class);
 // Route::resource('/inventories', InventoryController::class);
-Route::resource('/employees', EmployeeController::class);
+// Route::resource('/employees', EmployeeController::class);
+Route::resource('/assigns', AssignController::class);

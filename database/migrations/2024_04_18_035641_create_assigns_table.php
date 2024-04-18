@@ -10,17 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('assigns', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
-            $table->string('batch_number');
-            $table->string('serial_number');
-            $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('inventory_id');
+            $table->string('assigned_by');
             $table->timestamps();
-            $table->softDeletes();
 
-            $table->foreign('item_id')->references('id')->on('items');
+            $table->foreign('employee_id')->references('id')->on('employees');
+            $table->foreign('inventory_id')->references('id')->on('inventories');
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('assigns');
     }
 };
