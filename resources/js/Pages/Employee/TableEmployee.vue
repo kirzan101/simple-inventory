@@ -87,7 +87,7 @@
 
             <b-col sm="7" md="6" class="my-1">
                 <b-pagination
-                    v-model="filters.current_page"
+                    v-model="filters.page"
                     :total-rows="totalRows"
                     :per-page="filters.per_page"
                     align="fill"
@@ -172,15 +172,15 @@ export default {
     },
     watch: {
         "filters.search"() {
-            console.log(this.filters.search);
             this.$emit('toggle-search', this.filters)
         },
         "filters.per_page"() {
-            console.log(this.filters.per_page);
             this.$emit('toggle-search', this.filters)
         },
         "filters.current_page"() {
-            console.log(this.filters.current_page);
+            this.$emit('toggle-search', this.filters)
+        },
+        "filters.page"() {
             this.$emit('toggle-search', this.filters)
         }
     }
