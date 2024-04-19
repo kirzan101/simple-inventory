@@ -20,7 +20,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        ['results' => $items, 'rows' => $rows] = $this->item->indexItem($request->toArray());
+        ['results' => $items] = $this->item->indexPaginateItem($request->toArray());
 
         // return response()->json([
         //     'items' => $items,
@@ -29,8 +29,12 @@ class ItemController extends Controller
 
         return Inertia::render('Item/IndexItem', [
             'items' => $items->all(),
-            'rows' => $rows,
-            'meta' => $items->resource,
+            'per_page' => $items->perPage(),
+            'current_page' => $items->currentPage(),
+            'page' => ($request['page']) ? $request['page'] : 1,
+            'total' => $items->total(),
+            'last_page' => $items->lastPage(),
+            'search' => $request['search'],
         ]); //compact
     }
 

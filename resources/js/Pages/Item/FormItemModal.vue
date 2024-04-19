@@ -1,39 +1,48 @@
 <template>
     <b-modal
         id="item-form-modal"
-        title="BootstrapVue"
         no-close-on-esc
         no-close-on-backdrop
-    >
-        <b-form @submit.prevent="submit" inline>
-            <label class="sr-only" for="inline-form-input-name">Name</label>
+        hide-header-close
+    >   
+        <template #modal-title>
+            <h1 v-if="isAdd">Add Item</h1>
+            <h1 v-else>Update Item</h1>
+        </template>
+        <b-form @submit.prevent="submit" :inline="isAdd">
+            <label v-if="formType == 'UPDATE'" for="inline-form-input-name">Name:</label>
+            <label v-else class="sr-only" for="inline-form-input-name">Name</label>
+            
             <b-form-input
                 id="inline-form-input-name"
-                class="mb-2 mr-sm-2 mb-sm-0"
+                class="mb-2 mr-sm-2"
                 placeholder="Name"
                 v-model="form.name"
             ></b-form-input>
 
-            <label class="sr-only" for="inline-form-input-name">Description</label>
+            <label v-if="formType == 'UPDATE'" for="inline-form-input-description">Description:</label>
+            <label v-else class="sr-only" for="inline-form-input-description">Description</label>
             <b-form-input
-                id="inline-form-input-name"
-                class="mb-2 mr-sm-2 mb-sm-0"
+                id="inline-form-input-description"
+                class="mb-2 mr-sm-2"
                 placeholder="Description"
                 v-model="form.description"
             ></b-form-input>
 
-            <label class="sr-only" for="inline-form-input-name">Model</label>
+            <label v-if="formType == 'UPDATE'" for="inline-form-input-model">Model:</label>
+            <label v-else class="sr-only" for="inline-form-input-model">Model</label>
             <b-form-input
-                id="inline-form-input-name"
-                class="mb-2 mr-sm-2 mb-sm-0"
+                id="inline-form-input-model"
+                class="mb-2 mr-sm-2"
                 placeholder="Model"
                 v-model="form.model"
             ></b-form-input>
 
-            <label class="sr-only" for="inline-form-input-name">Brand</label>
+            <label v-if="formType == 'UPDATE'" for="inline-form-input-brand">Brand:</label>
+            <label v-else class="sr-only" for="inline-form-input-brand">Brand</label>
             <b-form-input
-                id="inline-form-input-name"
-                class="mb-2 mr-sm-2 mb-sm-0"
+                id="inline-form-input-brand"
+                class="mb-2 mr-sm-2"
                 placeholder="Brand"
                 v-model="form.brand"
             ></b-form-input>
@@ -62,6 +71,7 @@ export default {
                 model: "",
                 brand: "",
             }),
+            isAdd: false,
         };
     },
     watch: {
@@ -86,15 +96,18 @@ export default {
                     ...this.form,
                 });
             }
-
+            this.$emit("toggleModal");
             this.$emit("toggleEmpty");
 
             this.$bvModal.hide("item-form-modal");
         },
         closed() {
-            console.log(this.item);
+            console.log("Modal Item:", this.item);
+            this.$emit("toggleModal");
+            this.$emit("toggleEmpty");
             this.$bvModal.hide("item-form-modal");
         },
+        
         empty() {
             this.form = useForm({
                 name: "",
@@ -104,9 +117,21 @@ export default {
             });
         },
     },
-    // created() {
-    //     this.form = this.item;
-    // },
+    computed: {
+        // checkUpdate(formType) {
+        //     // Create an options list from our fields
+            
+        // },
+    },
+    created() {
+        // this.form = this.item;
+        if(this.formType == "ADD"){
+            this.isAdd = true;
+        }
+        console.log("Form Type: ", this.formType);
+        console.log("Is Updated: ", this.isAdd);
+        return this.isAdd;
+    },
 
 };
 </script>

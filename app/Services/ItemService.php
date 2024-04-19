@@ -5,28 +5,40 @@ namespace App\Services;
 use App\Http\Resources\ItemResource;
 use App\Interfaces\ItemInterface;
 use App\Models\Item;
+use App\Traits\ReturnCollectionTrait;
+use App\Traits\ReturnModelTrait;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ItemService implements ItemInterface
 {
+    use ReturnCollectionTrait, ReturnModelTrait;
     public $return_result = [];
 
-    public function indexItem(array $request): array
+    public function indexItem(): array
     {
-        $per_page = 10;
-        $orderByDesc = true;
+        $items = Item::all();
 
-        $items = Item::paginate($per_page);
-        // $rows = Item::all()->count();
-        $rows = $items->total();
+        $this->return_result = $this->returnCollection(200, 'success', 'successfully retrieved', ItemResource::collection($items));
 
-        $this->return_result = [
-            'message' => 'success',
-            'code' => '200',
-            'results' => ItemResource::collection($items),
-            'rows' => $rows
-        ];
+        return $this->return_result;
+    }
+    public function indexPaginateItem(array $request): array
+    {
+        // page defaults
+        $per_page = (array_key_exists('per_page', $request) && $request['per_page']) ? $request['per_page'] : 10;
+        $sort = (array_key_exists('orderByDesc', $request) && $request['orderByDesc']) ? 'desc' : 'asc';
+        $sort_by = (array_key_exists('sortBy', $request) && $request['sortBy']) ? $request['sortBy'] : 'id';
+
+        $items = Item::query();
+
+        if (array_key_exists('search', $request) && !empty($request['search'])) {
+            $items = $items->where('name', 'LIKE', '%' . $request['search'] . '%');
+        }
+
+        $items = $items->orderBy($sort_by, $sort)->paginate($per_page);
+
+        $this->return_result = $this->returnCollection(200, 'success', 'successfully retrieved', ItemResource::collection($items));
 
         return $this->return_result;
     }
