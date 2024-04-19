@@ -11,7 +11,7 @@
                 @click="add"
                 >Add</b-button>
             
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
+            <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
 
             <p class="mt-3">Current Page: {{ currentPage }}</p>
 
@@ -23,12 +23,28 @@
                         variant="primary"
                         >Update</b-button>
                 </template>
-            </b-table>      
+            </b-table>       -->
+
+            <TableInventory
+                :inventories="inventories"
+                :items="items"
+                :fields="fields"
+                :totalRows="total"
+                :perPage="per_page"
+                :filters="filters"
+                :current_page="current_page"
+                :inventory="selectedInventory"
+                @toggle-search="loadData"
+                @selectChildInventory = "selectInventory"
+            />
+
             <FormInventoryModal
-                v-if="clickedItem"
+                v-if="clickedInventory"
                 :inventory="selectedInventory"
                 :items="items"
                 :formType="formType"
+                @toggleEmpty="emptyFields" 
+                @toggleModal="closeModal"
             />
         </b-container>
     </div>
@@ -37,17 +53,25 @@
 <script>
 import Navbar from '../../Navbar.vue';
 import FormInventoryModal from './FormInventoryModal.vue';
+import TableInventory from './TableInventory.vue';
+import {
+    router
+} from "@inertiajs/vue2";
 
 export default {
     props: {
         inventories: Array,
         items: Array,
-        rows: Number,
-        meta: Object,
+        per_page: Number,
+        total: Number,
+        last_page: Number,
+        search: String,
+        current_page: Number,
     },
     components: {
         Navbar,
         FormInventoryModal,
+        TableInventory,
     },
     data() {
         return {
@@ -59,41 +83,58 @@ export default {
                 serial_number: "",
                 item_id: "",
             },
-            clickedItem: false,
+            clickedInventory: false,
             formType: "ADD",
-            currentPage: this.meta.current_page,
+            filters: {
+                per_page: "",
+                search: "",
+                current_page: "",
+                page: "",
+            },
         };
     },
     methods: {
         selectInventory(inventory) {
             console.log(inventory, "item here");
             this.selectedInventory = inventory;
-            this.clickedItem = true;
+            this.clickedInventory = true;
             this.formType = "UPDATE";
         },
         add() {
             console.log("add");
-            console.log(this.clickedItem);
-            this.clickedItem = true;
+            console.log(this.clickedInventory);
+            this.clickedInventory = true;
             this.formType = "ADD";
+        },
+        emptyFields(){
+            this.selectedInventory = Object.assign({}, "");
         },
         linkGen(pageNum) {
             return pageNum === 1 ? '?' : `?page=${pageNum}`
         },
-    },
-    computed: {
-        totalPages() {
-            console.log(this.items);
-            console.log("Meta:", this.meta.per_page);
-            console.log("Rows:", this.rows);
-            console.log("Pages: ", Math.ceil(this.rows / this.meta.per_page));
-            if (Math.ceil(this.rows / this.meta.per_page) == 0) {
-                return 1;
-            }
-            else{
-                return Math.ceil(this.rows / this.meta.per_page);
-            }
+        loadData(filter){
+            router.reload({
+                data: filter,
+                only: [
+                    "inventories",
+                    "items",
+                    "per_page",
+                    "total",
+                    "last_page",
+                    "search",
+                    "current_page"
+                ],
+            });
+        },
+        closeModal(){
+            this.clickedInventory = false;
         }
+    },
+    created(){
+        this.filters.search = this.search,
+        this.filters.per_page = this.per_page,
+        this.filters.current_page = this.current_page,
+        this.filters.page = this.current_page
     }
-}
+};
 </script>

@@ -32,7 +32,13 @@
             @selectChildItem="selectItem"
         />
 
-        <FormItemModal v-if="clickedItem" :item="selectedItem" :formType="formType" @toggleEmpty="emptyFields" @toggleModal="closeModal"/>
+        <FormItemModal 
+            v-if="clickedItem" 
+            :item="selectedItem" 
+            :formType="formType" 
+            @toggleEmpty="emptyFields" 
+            @toggleModal="closeModal"
+        />
     </b-container>
 </div>
 </template>
@@ -90,7 +96,7 @@ export default {
             this.formType = "ADD";
         },
         emptyFields() {
-            console.log('here1!!')
+            console.log('Emptied Fields!!')
             this.selectedItem = Object.assign({}, "");
         },
         linkGen(pageNum) {
