@@ -32,8 +32,17 @@ class ItemService implements ItemInterface
 
         $items = Item::query();
 
+        // if (array_key_exists('search', $request) && !empty($request['search'])) {
+        //     $items = $items->where('name', 'LIKE', '%' . $request['search'] . '%');
+        // }
+        // search filter
         if (array_key_exists('search', $request) && !empty($request['search'])) {
-            $items = $items->where('name', 'LIKE', '%' . $request['search'] . '%');
+            $items->where(function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request['search'] . '%')
+                    ->orWhere('description', 'LIKE', '%' . $request['search'] . '%')
+                    ->orWhere('model', 'LIKE', '%' . $request['search'] . '%')
+                    ->orWhere('brand', 'LIKE', '%' . $request['search'] . '%');
+            });
         }
 
         $items = $items->orderBy($sort_by, $sort)->paginate($per_page);
