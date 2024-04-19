@@ -57,13 +57,14 @@ export default {
     },
     data() {
         return {
-            fields: [
-                { key: "name", label: "Full Name" },
-                { key: "position", label: "Position" },
-                { key: "department", label: "Department" },
-                { key: "branch", label: "Branch" },
-                { key: "", label: "Action" },
-            ],
+            // fields: [
+            //     { key: "name", label: "Full Name" },
+            //     { key: "position", label: "Position" },
+            //     { key: "department", label: "Department" },
+            //     { key: "branch", label: "Branch" },
+            //     { key: "", label: "Action" },
+            // ],
+            fields: ["name", "position", "department", "branch", "action"],
             selectedEmployee: {
                 name: "",
                 position: "",

@@ -14,7 +14,27 @@ class InventoryService implements InventoryInterface
 {
     public $return_result = [];
 
-    public function indexInventory(array $request): array
+    public function indexInventory(): array
+    {
+        $inventories = Inventory::all();
+
+        $per_page = 10;
+        $orderByDesc = true;
+        $items = Item::all();
+        $inventories = Inventory::paginate($per_page);
+        $rows = $inventories->total();
+
+        $this->return_result = [
+            'message' => 'success',
+            'code' => '200',
+            'results' => InventoryResource::collection($inventories),
+            'items' => ItemResource::collection($items),
+            'rows' => $rows
+        ];
+
+        return $this->return_result;
+    }
+    public function indexPaginateInventory(array $request): array
     {
         $per_page = 10;
         $orderByDesc = true;

@@ -1,17 +1,10 @@
 <template>
-    <div>
-        <Navbar />
-        <h1>Items</h1>
-        
-        <b-container fluid>
-            <b-button
-                v-b-modal.item-form-modal
-                class="my-3"
-                variant="success"
-                @click="add"
-                >Add</b-button
-            >
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
+<div>
+    <Navbar />
+    <h1>Items</h1>
+    <b-container fluid>
+        <b-button v-b-modal.item-form-modal class="my-3" variant="success" @click="add">Add</b-button>
+        <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
 
             <p class="mt-3">Current Page: {{ currentPage }}</p>
             <p class="mt-3">Total Pages: {{ totalPages }}</p>
@@ -25,31 +18,46 @@
                         >Update</b-button
                     >
                 </template>
-            </b-table>
+            </b-table> -->
 
-            <FormItemModal
-                v-if="clickedItem"
-                :item="selectedItem"
-                :formType="formType"
-                @toggleEmpty="emptyFields"
-            />
-        </b-container>
-    </div>
+        <TableItem 
+            :items="items" 
+            :fields="fields" 
+            :totalRows="total"
+            :perPage="per_page"
+            :filters="filters"
+            :current_page="current_page"
+            :item="selectedItem"
+            @toggle-search="loadData"
+            @selectChildItem="selectItem"
+        />
+
+        <FormItemModal v-if="clickedItem" :item="selectedItem" :formType="formType" @toggleEmpty="emptyFields" @toggleModal="closeModal"/>
+    </b-container>
+</div>
 </template>
 
 <script>
 import Navbar from "../../Navbar.vue";
 import FormItemModal from "./FormItemModal.vue";
+import TableItem from "./TableItem.vue";
+import {
+    router
+} from "@inertiajs/vue2";
 
 export default {
     props: {
         items: Array,
-        rows: Number,
-        meta: Object,
+        per_page: Number,
+        total: Number,
+        last_page: Number,
+        search: String,
+        current_page: Number,
     },
     components: {
         Navbar,
         FormItemModal,
+        TableItem,
     },
     data() {
         return {
@@ -62,20 +70,21 @@ export default {
             },
             clickedItem: false,
             formType: "ADD",
-            currentPage: this.meta.current_page,
+            filters: {
+                per_page: "",
+                search: "",
+                current_page: "",
+                page: "",
+            },
         };
     },
     methods: {
         selectItem(item) {
-            console.log(item, "item here", item['id']);
             this.selectedItem = item;
             this.clickedItem = true;
             this.formType = "UPDATE";
         },
         add() {
-            console.log(this.meta);
-            console.log(this.items);
-            console.log("Item Length:", this.items.length);
             console.log("Clicked add");
             this.clickedItem = true;
             this.formType = "ADD";
@@ -87,13 +96,29 @@ export default {
         linkGen(pageNum) {
             return pageNum === 1 ? '?' : `?page=${pageNum}`
         },
-    },
-    computed: {
-        totalPages() {
-            console.log("meta:", this.meta.per_page);
-            console.log("Pages: ", Math.ceil(this.rows / this.meta.per_page));
-            return Math.ceil(this.rows / this.meta.per_page);
+        loadData(filter) {
+            router.reload({
+                data: filter,
+                only: [
+                    "items",
+                    "per_page",
+                    "total",
+                    "last_page",
+                    "search",
+                    "current_page"
+                ],
+            });
+        },
+        closeModal(){
+           this.clickedItem = false; 
         }
     },
+    created() {
+        this.filters.search = this.search,
+        this.filters.per_page = this.per_page,
+        this.filters.current_page = this.current_page,
+        this.filters.page = this.current_page
+    }
+
 };
 </script>
