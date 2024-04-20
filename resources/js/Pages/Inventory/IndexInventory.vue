@@ -1,15 +1,19 @@
 <template>
     <div>
         <Navbar />
-        <h1>Inventories</h1>
+        <h1 class="">&nbsp;</h1>
 
         <b-container fluid>
-            <b-button 
-                v-b-modal.inventory-form-modal
-                class="my-3"
-                variant="success"
-                @click="add"
-                >Add</b-button>
+            <b-card bg-variant="light" text-variant="black" title="Add Inventories" class="mt-4" border-variant="dark"> 
+                <template #header>
+                    <h1>Inventories Page</h1>
+                </template>
+                <b-button 
+                    v-b-modal.inventory-form-modal
+                    class="my-3"
+                    variant="success"
+                    @click="add"
+                    >Add</b-button>
             
             <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
 
@@ -37,6 +41,7 @@
                 @toggle-search="loadData"
                 @selectChildInventory = "selectInventory"
             />
+            </b-card>
 
             <FormInventoryModal
                 v-if="clickedInventory"
@@ -108,9 +113,6 @@ export default {
         },
         emptyFields(){
             this.selectedInventory = Object.assign({}, "");
-        },
-        linkGen(pageNum) {
-            return pageNum === 1 ? '?' : `?page=${pageNum}`
         },
         loadData(filter){
             router.reload({

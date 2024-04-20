@@ -13,6 +13,7 @@ class Assign extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'employee_id',
         'inventory_id',
         'assigned_by',

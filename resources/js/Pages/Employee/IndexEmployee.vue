@@ -1,7 +1,7 @@
 <template>
     <div>
         <Navbar />
-        <h1>Employees - {{ current_page }}</h1>
+        <h1 class="mt-5">Employees</h1>
 
         <b-button
             v-b-modal.employee-form-modal

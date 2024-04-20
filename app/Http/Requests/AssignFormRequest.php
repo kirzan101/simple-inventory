@@ -15,6 +15,7 @@ class AssignFormRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'description' => 'required',
             'employee_id' => 'required',
             'inventory_id' => 'required',
             'assigned_by' => 'required',
