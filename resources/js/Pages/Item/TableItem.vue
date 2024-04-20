@@ -81,7 +81,7 @@ export default {
         filters: Object
     },
     components: {
-        FormItemModal,
+        
     },
     data() {
         return {
@@ -110,9 +110,9 @@ export default {
         },
     },
     methods: {
-        onSearch() {
-            console.log(this.search);
-        },
+        // onSearch() {
+        //     console.log(this.search);
+        // },
         selectChild(item) {
             console.log(item);
             this.$emit("selectChildItem", item);

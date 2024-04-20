@@ -1,9 +1,16 @@
 <template>
 <div>
     <Navbar />
-    <h1>Items</h1>
+    <h1>&nbsp;</h1>
     <b-container fluid>
-        <b-button v-b-modal.item-form-modal class="my-3" variant="success" @click="add">Add</b-button>
+        <b-card bg-variant="light" text-variant="black" title="Add Items" class="mt-4" border-variant="dark"> 
+            <template #header>
+                    <h1>Items Page</h1>
+            </template>
+            <b-button v-b-modal.item-form-modal variant="success" @click="add" class="my-3">Add</b-button>
+            
+        
+        
         <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
 
             <p class="mt-3">Current Page: {{ currentPage }}</p>
@@ -20,17 +27,18 @@
                 </template>
             </b-table> -->
 
-        <TableItem 
-            :items="items" 
-            :fields="fields" 
-            :totalRows="total"
-            :perPage="per_page"
-            :filters="filters"
-            :current_page="current_page"
-            :item="selectedItem"
-            @toggle-search="loadData"
-            @selectChildItem="selectItem"
-        />
+            <TableItem 
+                :items="items" 
+                :fields="fields" 
+                :totalRows="total"
+                :perPage="per_page"
+                :filters="filters"
+                :current_page="current_page"
+                :item="selectedItem"
+                @toggle-search="loadData"
+                @selectChildItem="selectItem"
+            />
+        </b-card>
 
         <FormItemModal 
             v-if="clickedItem" 

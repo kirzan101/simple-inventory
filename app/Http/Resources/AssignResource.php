@@ -13,6 +13,7 @@ class AssignResource extends JsonResource
     {
         return [
             'name' => $this->name,
+            'description' => $this->description,
             'employee_id' => $this->employee_id,
             'inventory_id' => $this->inventory_id,
             'assigned_by' => $this->assigned_by,

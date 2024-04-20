@@ -49,7 +49,13 @@
 
             <label for="inline-form-input-item-id">Item ID:</label>
             <br>
-            <select id="inline-form-input-item-id" class="form-select" aria-label="Default select example" v-model="form.item_id">
+            <select 
+                id="inline-form-input-item-id" 
+                class="form-select" 
+                aria-label="Default select example" 
+                v-model="form.item_id"
+                
+            >
                 <option v-for="(item, index) in items" :key="index" :value="item.id">{{ item.name }} - {{ item.id }}</option>
             </select>
         </b-form>

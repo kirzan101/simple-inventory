@@ -12,6 +12,7 @@ class AssignFactory extends Factory
     {
         return [
             'name' => fake()->name,
+            'description' => fake()->catchPhrase,
             'employee_id' => Employee::factory(),
             'inventory_id' => Inventory::factory(),
             'assigned_by' => fake()->company,

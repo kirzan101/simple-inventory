@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import FormInventoryModal from './FormInventoryModal.vue';
+
 
 export default {
     props: {
@@ -82,9 +82,7 @@ export default {
         perPage: Number,
         filters: Object
     },
-    components: {
-        FormInventoryModal,
-    },
+    
     data() {
         return{
             pageOptions: [5, 10, 15, {
@@ -111,9 +109,9 @@ export default {
         },
     },
     methods: {
-        onSearch() {
-            console.log(this.search);
-        },
+        // onSearch() {
+        //     console.log(this.search);
+        // },
         selectChild(inventory){
             console.log("Select Child - Table Inventory: ", inventory);
             this.$emit("selectChildInventory", inventory);
