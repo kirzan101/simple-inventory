@@ -121,7 +121,6 @@ export default {
             this.$emit("toggleEmpty");
             this.$bvModal.hide("inventory-form-modal");
         },
-
         empty() {
             this.form = useForm({
                 name: "",
