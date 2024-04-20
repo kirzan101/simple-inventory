@@ -42,7 +42,7 @@
             <b-col lg="6" class="my-1">
                 <b-form-group
                     label="Filter"
-                    label-for="filter-input"
+                    label-for="search-input"
                     label-cols-sm="3"
                     label-align-sm="right"
                     label-size="sm"
@@ -124,6 +124,10 @@
                 </b-button>
             </template>
 
+            <template #cell(action)="data">
+                <b-button @click="selectChild(data.item)" v-b-modal.employee-form-modal variant="primary">Update</b-button>
+            </template>
+
             <template #row-details="row">
                 <b-card>
                     <ul>
@@ -168,6 +172,9 @@ export default {
     methods: {
         onSearch() {
             console.log(this.search);
+        },
+        selectChild(employee){
+            this.$emit("selectChildEmployee", employee);
         }
     },
     watch: {

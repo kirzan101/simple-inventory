@@ -1,7 +1,7 @@
 <template>
     <div>
         <Navbar />
-        <h1 class="">&nbsp;</h1>
+        <h1>&nbsp;</h1>
 
         <b-container fluid>
             <b-card bg-variant="light" text-variant="black" title="Add Inventories" class="mt-4" border-variant="dark"> 
@@ -15,32 +15,32 @@
                     @click="add"
                     >Add</b-button>
             
-            <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
+                <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
 
-            <p class="mt-3">Current Page: {{ currentPage }}</p>
+                <p class="mt-3">Current Page: {{ currentPage }}</p>
 
-            <b-table id="my-table" :fields="fields" striped hover :items="inventories">
-                <template #cell(action)="data">
-                    <b-button
-                        @click="selectInventory(data.item)"
-                        v-b-modal.inventory-form-modal
-                        variant="primary"
-                        >Update</b-button>
-                </template>
-            </b-table>       -->
+                <b-table id="my-table" :fields="fields" striped hover :items="inventories">
+                    <template #cell(action)="data">
+                        <b-button
+                            @click="selectInventory(data.item)"
+                            v-b-modal.inventory-form-modal
+                            variant="primary"
+                            >Update</b-button>
+                    </template>
+                </b-table>       -->
 
-            <TableInventory
-                :inventories="inventories"
-                :items="items"
-                :fields="fields"
-                :totalRows="total"
-                :perPage="per_page"
-                :filters="filters"
-                :current_page="current_page"
-                :inventory="selectedInventory"
-                @toggle-search="loadData"
-                @selectChildInventory = "selectInventory"
-            />
+                <TableInventory
+                    :inventories="inventories"
+                    :items="items"
+                    :fields="fields"
+                    :totalRows="total"
+                    :perPage="per_page"
+                    :filters="filters"
+                    :current_page="current_page"
+                    :inventory="selectedInventory"
+                    @toggle-search="loadData"
+                    @selectChildInventory = "selectInventory"
+                />
             </b-card>
 
             <FormInventoryModal
