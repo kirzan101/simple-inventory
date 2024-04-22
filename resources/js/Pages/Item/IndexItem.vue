@@ -44,6 +44,7 @@
             v-if="clickedItem" 
             :item="selectedItem" 
             :formType="formType" 
+            :errors="errors"
             @toggleEmpty="emptyFields" 
             @toggleModal="closeModal"
         />
@@ -67,6 +68,7 @@ export default {
         last_page: Number,
         search: String,
         current_page: Number,
+        errors: Object,
     },
     components: {
         Navbar,
@@ -75,7 +77,14 @@ export default {
     },
     data() {
         return {
-            fields: ["name", "description", "model", "brand", "action"],
+            // fields: ["name", "description", "model", "brand", "action"],
+            fields: [
+                {key: 'name', label: 'Name', sortable: true, sortDirection: 'desc'},
+                {key: 'description', label: 'Description', sortable: true, sortDirection: 'desc'},
+                {key: 'model', label: 'Model', sortable: true, sortDirection: 'desc'},
+                {key: 'brand', label: 'Brand', sortable: true, sortDirection: 'desc'},
+                {key: 'action', label: 'Action'},
+            ],
             selectedItem: {
                 name: "",
                 description: "",
@@ -90,6 +99,7 @@ export default {
                 current_page: "",
                 page: "",
             },
+            error: this.errors,
         };
     },
     methods: {
@@ -99,7 +109,7 @@ export default {
             this.formType = "UPDATE";
         },
         add() {
-            console.log("Clicked add");
+            console.log("IndexItem.vue-add.method Errors:", this.error);
             this.clickedItem = true;
             this.formType = "ADD";
         },
@@ -128,6 +138,7 @@ export default {
         }
     },
     created() {
+        // this.filters.items = this.items,
         this.filters.search = this.search,
         this.filters.per_page = this.per_page,
         this.filters.current_page = this.current_page,

@@ -5,7 +5,7 @@
         <b-container fluid>
             <b-card bg-variant="light" text-variant="black" title="Add Inventories" border-variant="dark" class="mt-4">
                 <template #header>
-                    <h1>Assigns</h1>
+                    <h1>Assigns Page</h1>
                 </template>
                 <b-button
                     v-b-modal.assign-form-modal
@@ -71,6 +71,13 @@ export default {
     data() {
         return{
             fields: ["name", "description", "employee_id", "inventory_id", "assigned_by", "action"],
+            fields: [
+                { key: "name", label: "Name", sortable: true, sortDirection: 'desc' },
+                { key: "description", label: "Description", sortable: true, sortDirection: 'desc' },
+                { key: "employee_id", label: "Employee ID", sortable: true, sortDirection: 'desc' },
+                { key: "inventory_id", label: "Inventory ID", sortable: true, sortDirection: 'desc' },
+                { key: "action", label: "Action"},
+            ],
             selectedAssign: {
                 name: "",
                 description: "",

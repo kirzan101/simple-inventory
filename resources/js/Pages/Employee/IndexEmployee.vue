@@ -72,14 +72,14 @@ export default {
     },
     data() {
         return {
-            // fields: [
-            //     { key: "name", label: "Full Name" },
-            //     { key: "position", label: "Position" },
-            //     { key: "department", label: "Department" },
-            //     { key: "branch", label: "Branch" },
-            //     { key: "", label: "Action" },
-            // ],
-            fields: ["name", "position", "department", "branch", "action"],
+            fields: [
+                { key: "name", label: "Full Name", sortable: true, sortDirection: 'desc' },
+                { key: "position", label: "Position", sortable: true, sortDirection: 'desc' },
+                { key: "department", label: "Department", sortable: true, sortDirection: 'desc' },
+                { key: "branch", label: "Branch", sortable: true, sortDirection: 'desc' },
+                { key: "action", label: "Action"},
+            ],
+            // fields: ["name", "position", "department", "branch", "action"],
             selectedEmployee: {
                 name: "",
                 position: "",

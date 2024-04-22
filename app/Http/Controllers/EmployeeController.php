@@ -26,7 +26,7 @@ class EmployeeController extends Controller
             'employees' => $employees->all(),
             'per_page' => $employees->perPage(),
             'current_page' => $employees->currentPage(),
-            'page' => ($request['page']) ?  $request['page'] : 1,
+            'page' => ($request['page']) ? $request['page'] : 1,
             'total' => $employees->total(),
             'last_page' => $employees->lastPage(),
             'search' => $request['search'],
@@ -47,11 +47,11 @@ class EmployeeController extends Controller
     {
         ['result' => $employee, 'message' => $message] = $this->employee->createEmployee($request->toArray());
 
-        return response()->json([
-            'employee' => $employee,
-            'message' => $message,
-        ]);
-        // return redirect()->back()->with('message', $message);
+        // return response()->json([
+        //     'employee' => $employee,
+        //     'message' => $message,
+        // ]);
+        return redirect()->back()->with('message', $message);
     }
 
     /**
