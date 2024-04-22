@@ -85,11 +85,11 @@ export default {
     },
     methods: {
         submit() {
-            console.log("submitted");
-
+            console.log("FormItemModal.vue-submit.method Errors ", this.errors);
             if (this.formType === "ADD") {
+
                 router.post("/items", this.form);
-                this.form.reset();
+
             } else if (this.formType === "UPDATE") {
                 router.post(`/items/${this.item.id}`, {
                     _method: "PUT",

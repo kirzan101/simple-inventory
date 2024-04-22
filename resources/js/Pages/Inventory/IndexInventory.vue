@@ -80,7 +80,15 @@ export default {
     },
     data() {
         return {
-            fields: ["name", "description", "batch_number", "serial_number", "item_id", "action"],
+            // fields: ["name", "description", "batch_number", "serial_number", "item_id", "action"],
+            fields: [
+                {key: 'name', label: 'Name', sortable: true, sortDirection: 'desc'},
+                {key: 'description', label: 'Description', sortable: true, sortDirection: 'desc'},
+                {key: 'batch_number', label: 'Batch Number', sortable: true, sortDirection: 'desc'},
+                {key: 'serial_number', label: 'Serial Number', sortable: true, sortDirection: 'desc'},
+                {key: 'item_id', label: 'Item ID', sortable: true, sortDirection: 'desc'},
+                {key: 'action', label: 'Action'},
+            ],
             selectedInventory: {
                 name: "",
                 description: "",
