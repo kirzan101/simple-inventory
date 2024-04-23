@@ -78,6 +78,7 @@ export default {
         fields: Array,
         totalRows: Number,
         perPage: Number,
+        currentPage: Number,
         filters: Object
     },
     components: {

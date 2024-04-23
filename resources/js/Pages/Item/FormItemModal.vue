@@ -18,7 +18,11 @@
                 class="mb-2 mr-sm-2"
                 placeholder="Name"
                 v-model="form.name"
+                :state="errors.name ? false : null"
             ></b-form-input>
+            <b-form-invalid-feedback :state="errors.name ? false : null">
+                {{ errors.name }} 
+            </b-form-invalid-feedback>
 
             <label v-if="formType == 'UPDATE'" for="inline-form-input-description">Description:</label>
             <label v-else class="sr-only" for="inline-form-input-description">Description</label>
@@ -27,7 +31,11 @@
                 class="mb-2 mr-sm-2"
                 placeholder="Description"
                 v-model="form.description"
+                :state="errors.description ? false : null"
             ></b-form-input>
+            <b-form-invalid-feedback :state="errors.description ? false : null">
+                {{ errors.description }} 
+            </b-form-invalid-feedback>
 
             <label v-if="formType == 'UPDATE'" for="inline-form-input-model">Model:</label>
             <label v-else class="sr-only" for="inline-form-input-model">Model</label>
@@ -36,7 +44,11 @@
                 class="mb-2 mr-sm-2"
                 placeholder="Model"
                 v-model="form.model"
+                :state="errors.model ? false : null"
             ></b-form-input>
+            <b-form-invalid-feedback :state="errors.model ? false : null">
+                {{ errors.model }} 
+            </b-form-invalid-feedback>
 
             <label v-if="formType == 'UPDATE'" for="inline-form-input-brand">Brand:</label>
             <label v-else class="sr-only" for="inline-form-input-brand">Brand</label>
@@ -45,7 +57,12 @@
                 class="mb-2 mr-sm-2"
                 placeholder="Brand"
                 v-model="form.brand"
+                :state="errors.brand ? false:null"
             ></b-form-input>
+            <b-form-invalid-feedback :state="errors.description ? false : null">
+                {{ errors.description }} 
+            </b-form-invalid-feedback>
+
         </b-form>
 
         <template #modal-footer>
@@ -62,6 +79,7 @@ export default {
     props: {
         item: Object,
         formType: String,
+        errors: Object,
     },
     data() {
         return {
@@ -85,10 +103,21 @@ export default {
     },
     methods: {
         submit() {
-            console.log("FormItemModal.vue-submit.method Errors ", this.errors);
+            // console.log("FormItemModal.vue-submit.method Errors ", this.errors);
+            
             if (this.formType === "ADD") {
-
                 router.post("/items", this.form);
+                router.on('success', (event) => {
+                    this.$emit("toggleModal");
+                    this.$emit("toggleEmpty");
+                    this.$bvModal.hide("item-form-modal");
+                    this.$emit("toggleToast", 'success', 'Add Item Action', 'Successfully Added Item');
+                })
+                
+                router.on('error', (errors) => {
+                    console.log("(FormItemModal.vue-submit.method) Call", errors);
+                    this.$emit("toggleToast", 'danger', 'Add Item Action', 'Empty Fields');
+                })
 
             } else if (this.formType === "UPDATE") {
                 router.post(`/items/${this.item.id}`, {
@@ -96,10 +125,7 @@ export default {
                     ...this.form,
                 });
             }
-            this.$emit("toggleModal");
-            this.$emit("toggleEmpty");
-
-            this.$bvModal.hide("item-form-modal");
+            
         },
         closed() {
             console.log("Modal Item:", this.item);
