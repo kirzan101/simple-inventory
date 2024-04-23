@@ -18,6 +18,9 @@
                 <b-nav-item :active="$page.url === '/assigns'">
                     <Link href="/assigns" class="nav-link">Assigns</Link>
                 </b-nav-item>
+                <b-nav-item :active="$page.url === '/home'">
+                    <Link href="/home" class="nav-link">Testing</Link>
+                </b-nav-item>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>

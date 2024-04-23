@@ -8,32 +8,13 @@
                     <h1>Items Page</h1>
             </template>
             <b-button v-b-modal.item-form-modal variant="success" @click="add" class="my-3">Add</b-button>
-            
-        
-        
-        <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages" use-router></b-pagination-nav>
-
-            <p class="mt-3">Current Page: {{ currentPage }}</p>
-            <p class="mt-3">Total Pages: {{ totalPages }}</p>
-            <p class="mt-3">Total Rows: {{ rows }}</p>
-            <b-table id="my-table" :fields="fields" striped hover :items="items">
-                <template #cell(action)="data">
-                    <b-button
-                        @click="selectItem(data.item)"
-                        v-b-modal.item-form-modal
-                        variant="primary"
-                        >Update</b-button
-                    >
-                </template>
-            </b-table> -->
-
             <TableItem 
                 :items="items" 
                 :fields="fields" 
                 :totalRows="total"
                 :perPage="per_page"
                 :filters="filters"
-                :current_page="current_page"
+                :currentPage="current_page"
                 :item="selectedItem"
                 @toggle-search="loadData"
                 @selectChildItem="selectItem"
@@ -47,6 +28,7 @@
             :errors="errors"
             @toggleEmpty="emptyFields" 
             @toggleModal="closeModal"
+            @toggleToast="makeToast"
         />
     </b-container>
 </div>
@@ -77,7 +59,6 @@ export default {
     },
     data() {
         return {
-            // fields: ["name", "description", "model", "brand", "action"],
             fields: [
                 {key: 'name', label: 'Name', sortable: true, sortDirection: 'desc'},
                 {key: 'description', label: 'Description', sortable: true, sortDirection: 'desc'},
@@ -99,7 +80,6 @@ export default {
                 current_page: "",
                 page: "",
             },
-            error: this.errors,
         };
     },
     methods: {
@@ -109,16 +89,17 @@ export default {
             this.formType = "UPDATE";
         },
         add() {
-            console.log("IndexItem.vue-add.method Errors:", this.error);
+            console.log("(IndexItem.vue-add.method) errors: ", this.errors);
+            console.log("(IndexItem.vue-add.method) errorFields:", this.errorFields);
             this.clickedItem = true;
             this.formType = "ADD";
         },
         emptyFields() {
-            console.log('Emptied Fields!!')
+            console.log('(IndexItem.vue-emptyFields.method) ');
             this.selectedItem = Object.assign({}, "");
-        },
-        linkGen(pageNum) {
-            return pageNum === 1 ? '?' : `?page=${pageNum}`
+            Object.keys(this.errors).forEach((key) => {
+                this.errors[key] = "";
+            });
         },
         loadData(filter) {
             router.reload({
@@ -129,21 +110,29 @@ export default {
                     "total",
                     "last_page",
                     "search",
-                    "current_page"
+                    "current_page",
                 ],
             });
         },
-        closeModal(){
-           this.clickedItem = false; 
-        }
+        closeModal() {
+            this.clickedItem = false; 
+        },
+        makeToast(variant = null, title = null, message = null) {
+            this.$bvToast.toast( message , {
+                title: title,
+                autoHideDelay: 3000,
+                appendToast: false,
+                solid: true,
+                variant: variant,
+                toaster: 'b-toaster-bottom-left',
+            })
+        },
     },
     created() {
-        // this.filters.items = this.items,
         this.filters.search = this.search,
         this.filters.per_page = this.per_page,
-        this.filters.current_page = this.current_page,
         this.filters.page = this.current_page
-    }
+    },
 
 };
 </script>
